@@ -17,10 +17,7 @@ app.use(require('./routes/usuario'));
 
  
 // Old - As in the course - Below is the new version from the mongoose official site
-mongoose.connect(process.env.URLDB, 
-  { userNewUrlParser: true, useCreateIndex: true },
-  (err, res) => {
-
+mongoose.connect('mongodb://localhost:27017/cafe', (err, res) => {
   if (err) throw err;
 
   console.log('Base de datos ONLINE');
