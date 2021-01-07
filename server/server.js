@@ -13,7 +13,11 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use(require('./routes/usuario'));
+
+// Configuracion global de rutas
+app.use(require('./routes/index'));
+// app.use(require('./routes/usuario'));
+// app.use(require('./routes/login'));
 
  
 // Old - As in the course - Below is the new version from the mongoose official site

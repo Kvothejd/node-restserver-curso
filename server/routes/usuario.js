@@ -6,9 +6,22 @@ const _ = require('underscore');
 // nomenclatura MAYUS
 const Usuario = require('../models/usuario');
 
-app.get('/usuario', function (req, res) {
+// Usamos destructuracion para obtener verificaToken
+const { verificaToken , verificaAdminRole } = require('../middlewares/autenticacion');
+
+
+// Original sin middleware
+// app.get('/usuario', function (req, res) {
+    
+// Agrego el Middleware "verificaToken" V.123
+// Para que se utilice cada vez que ser reciba la petición
+app.get('/usuario', verificaToken,  function (req, res) {
     // res.json('get Usuario LOCAL en modulo');
 
+    // Usando los datos del usuario que venían en el payload (ver "verificaToken")
+    // return res.json({
+    //     usuario: req.usuario
+    // })
 
     // Saltar primeros 5
     // Devolver 5 registros
@@ -42,7 +55,7 @@ app.get('/usuario', function (req, res) {
   })
 
 // crear/Post
-app.post('/usuario', function (req, res) {
+app.post('/usuario', [verificaToken, verificaAdminRole], function (req, res) {
     let body = req.body;
 
     let usuario = new Usuario({
@@ -76,7 +89,7 @@ app.post('/usuario', function (req, res) {
 })
 
 // actualizar/Put
-app.put('/usuario/:id', function (req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdminRole], function (req, res) {
     let id = req.params.id;
     
     // Solo tomo las propiedades que me interesan
@@ -128,7 +141,7 @@ app.put('/usuario/:id', function (req, res) {
 })
 
 // borrado fisico
-app.delete('/usuario/:id', function (req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdminRole], function (req, res) {
     let id = req.params.id;
     Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
         if (err) {
@@ -155,7 +168,7 @@ app.delete('/usuario/:id', function (req, res) {
     });    
 })
 
-app.delete('/usuarioBorradoLogico/:id', function (req, res) {
+app.delete('/usuarioBorradoLogico/:id', verificaToken, function (req, res) {
     let id = req.params.id;
 
     // Solo quiero cambiar el estado a False
