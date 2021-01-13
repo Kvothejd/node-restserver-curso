@@ -54,7 +54,7 @@ app.get('/usuario', verificaToken,  function (req, res) {
             })
   })
 
-// crear/Post
+// POST: crear/insertar
 app.post('/usuario', [verificaToken, verificaAdminRole], function (req, res) {
     let body = req.body;
 
@@ -88,7 +88,7 @@ app.post('/usuario', [verificaToken, verificaAdminRole], function (req, res) {
         
 })
 
-// actualizar/Put
+// PUT: actualizar/update
 app.put('/usuario/:id', [verificaToken, verificaAdminRole], function (req, res) {
     let id = req.params.id;
     
